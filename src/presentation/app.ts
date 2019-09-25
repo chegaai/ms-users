@@ -12,11 +12,11 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
 
   const services = container.resolve(Services)
 
-  app.get('/:userId', routes.find(services.user))
-  app.get('/', routes.listAll(services.user))
-  app.post('/', routes.create(services.user))
-  app.put('/:userId', routes.update(services.user))
-  app.delete('/:userId', routes.remove(services.user))
+  app.get('/users/:userId', routes.find(services.user))
+  app.get('/users', routes.listAll(services.user))
+  app.post('/users', routes.create(services.user))
+  app.put('/users/:userId', routes.update(services.user))
+  app.delete('/users/:userId', routes.remove(services.user))
 
   app.use(errors(environment))
 })
