@@ -1,7 +1,7 @@
 {
   "name": "ms-users",
-  "version": "1.0.2",
-  "description": "Companies microservice",
+  "version": "0.0.1",
+  "description": "Users microservice",
   "main": "dist/index.js",
   "scripts": {
     "prepare": "npm run build:clean",
@@ -17,7 +17,7 @@
     "start:debug": "tsc && concurrently -s all \"tsc -w\" \"DEBUG=expresso:* nodemon dist/index.js\""
   },
   "contributors": [
-    "Lucas Santos <lucas@nindoo.ai>"
+    "Lucas Santos <hello@lsantos.dev>"
   ],
   "license": "UNLICENSED",
   "dependencies": {
@@ -26,10 +26,7 @@
     "@expresso/server": "^1.1.3",
     "@expresso/validator": "^1.0.4",
     "@nindoo/mongodb-data-layer": "^1.2.0",
-    "cnpj": "^2.0.1",
     "express-rescue": "^1.1.22",
-    "google-protobuf": "^3.9.0-rc.1",
-    "grpc": "^1.22.2",
     "reflect-metadata": "^0.1.13",
     "sugar-env": "^1.5.7",
     "tsyringe": "^3.3.0"
