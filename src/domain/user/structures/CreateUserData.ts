@@ -1,5 +1,5 @@
-import { ObjectId } from 'bson'
 import { UserRoles, SocialNetworkObject } from '../User'
+import { ObjectId } from 'bson'
 
 export interface CreateUserData {
   username: string
@@ -14,7 +14,7 @@ export interface CreateUserData {
     city: string
   }
   document: string
-  groups: ObjectId[]
+  groups: (string | ObjectId)[]
   tags: string[]
   role: UserRoles
 }

@@ -1,5 +1,4 @@
 import { MongodbRepository, PaginatedQueryResult } from '@nindoo/mongodb-data-layer'
-import { ObjectId } from 'bson'
 import { inject, injectable } from 'tsyringe'
 import { Db } from 'mongodb'
 import { User } from '../../domain/user/User'
