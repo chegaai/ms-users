@@ -24,23 +24,24 @@ export class UserService {
   }
 
   async update (id: string, dataToUpdate: Partial<CreateUserData>): Promise<User> {
-    const currentUser = await this.repository.findById(id)
-    if (!currentUser) throw new UserNotFoundError(id)
+    const user = await this.repository.findById(id)
+    if (!user) throw new UserNotFoundError(id)
 
-    const newUser: User = {
-      ...currentUser,
-      ...dataToUpdate,
-      id: new ObjectId(id),
-      updatedAt: new Date()
+    const updatedData = {
+      ...user.toObject(),
+      ...dataToUpdate
     }
 
-    return this.repository.save(newUser)
+    user.update(updatedData)
+
+    return this.repository.save(user)
   }
 
   async delete (id: string): Promise<void> {
     const user = await this.repository.findById(id)
     if (!user) return
-    user.deletedAt = new Date()
+
+    user.delete()
 
     await this.repository.save(user)
   }

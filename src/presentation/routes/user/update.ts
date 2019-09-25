@@ -10,52 +10,36 @@ export function factory (service: UserService) {
     validate({
       type: 'object',
       properties: {
-        name: { 
-          type: 'object', 
-          properties: {
-            first: { type: 'string' },
-            last: { type: 'string' },
-          }
+        name: {
+          type: 'string'
         },
         email: { type: 'string' },
         picture: { type: 'string' },
-        socialNetworks: { 
-          type: 'object',
-          properties: {
-            facebook: { type: 'string' },
-            linkedin: { type: 'string' },
-            twitter: { type: 'string' },
-            medium: { type: 'string' },
-            speakerDeck: { type: 'string' },
-            pinterest: { type: 'string' },
-            instagram: { type: 'string' },
-            others: { 
-              type: 'array',
-              items: {
-                type: 'object',
-                properties:{
-                  name: { type: 'string' },
-                  link: { type: 'string' }
-                }
-              } 
-            },
+        socialNetworks: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              link: { type: 'string' }
+            }
           }
         },
         location: {
           type: 'object',
           properties: {
-            coutry: { type: 'string' },
+            country: { type: 'string' },
             state: { type: 'string' },
-            city: { type: 'string'}
+            city: { type: 'string' }
           }
         },
         tags: {
           type: 'array',
-          items:{
+          items: {
             type: 'string'
           }
         },
-        document: { type: 'string' }
+        document: { type: 'string' },
       },
       required: ['name', 'email', 'location', 'document', 'tags'],
       additionalProperties: false

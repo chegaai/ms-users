@@ -1,23 +1,16 @@
 import { ObjectId } from 'bson'
-import { UserRoles } from '../User'
+import { UserRoles, LocationObject, SocialNetworkObject } from '../User'
 import { Nullable } from '../../../utils/Nullable'
 
 export interface SerializedUser {
-  id: ObjectId
+  _id: ObjectId
   username: string
   name: string
   email: string
   picture: string
   role: UserRoles
-  socialNetworks: [{
-    name: string
-    link: string
-  }]
-  location: {
-    coutry: string
-    state: string
-    city: string
-  }
+  socialNetworks: SocialNetworkObject[]
+  location: LocationObject
   document: string
   groups: ObjectId[]
   tags: string[]

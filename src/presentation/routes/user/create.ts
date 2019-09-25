@@ -12,48 +12,32 @@ export function factory (service: UserService) {
       type: 'object',
       properties: {
         username: { type: 'string' },
-        name: { 
-          type: 'object', 
-          properties: {
-            first: { type: 'string' },
-            last: { type: 'string' },
-          }
+        name: {
+          type: 'string'
         },
         email: { type: 'string' },
         picture: { type: 'string' },
         socialNetworks: {
-          type: 'object',
-          properties: {
-            facebook: { type: 'string' },
-            linkedin: { type: 'string' },
-            twitter: { type: 'string' },
-            medium: { type: 'string' },
-            speakerDeck: { type: 'string' },
-            pinterest: { type: 'string' },
-            instagram: { type: 'string' },
-            others: { 
-              type: 'array',
-              items: {
-                type: 'object',
-                properties:{
-                  name: { type: 'string' },
-                  link: { type: 'string' }
-                }
-              }
-            },
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              link: { type: 'string' }
+            }
           }
         },
         location: {
           type: 'object',
           properties: {
-            coutry: { type: 'string' },
+            country: { type: 'string' },
             state: { type: 'string' },
-            city: { type: 'string'}
+            city: { type: 'string' }
           }
         },
         tags: {
           type: 'array',
-          items:{
+          items: {
             type: 'string'
           }
         },

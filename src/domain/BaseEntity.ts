@@ -13,6 +13,7 @@ export class BaseEntity {
 
   delete () {
     this.deletedAt = new Date()
+    this.updatedAt = new Date()
     return this
   }
 }

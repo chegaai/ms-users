@@ -51,4 +51,43 @@ export class User extends BaseEntity {
 
     return user
   }
+
+  update (dataToUpdate: CreateUserData): User {
+    this.name = dataToUpdate.name
+    this.name = dataToUpdate.name
+    this.document = dataToUpdate.document
+    this.groups = dataToUpdate.groups
+    this.location = dataToUpdate.location
+    this.picture = dataToUpdate.picture
+    this.email = dataToUpdate.email
+    this.username = dataToUpdate.username
+    this.role = dataToUpdate.role
+    this.socialNetworks = dataToUpdate.socialNetworks
+    this.tags = dataToUpdate.tags
+    this.updatedAt = new Date()
+    return this
+  }
+
+  toObject () {
+    return {
+      _id: this.id,
+      username: this.username,
+      name: this.name,
+      email: this.email,
+      picture: this.picture,
+      socialNetworks: this.socialNetworks,
+      location: {
+        country: this.location.country,
+        state: this.location.state,
+        city: this.location.city
+      },
+      document: this.document,
+      groups: this.groups,
+      tags: this.tags,
+      role: this.role,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      deletedAt: this.deletedAt
+    }
+  }
 }
