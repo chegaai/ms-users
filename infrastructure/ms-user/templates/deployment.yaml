@@ -36,4 +36,4 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       imagePullSecrets:
-        - name: grc-credentials
+        - name: registry-credentials

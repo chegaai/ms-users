@@ -1,6 +1,16 @@
-#!/bin/bash
-set -e
+CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
+PARENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && pwd )
+PACKAGE_VERSION=$(node -pe "require('$PARENT_DIR/package.json').version")
+PACKAGE_NAME=$(node -pe "require('$PARENT_DIR/package.json').name")
+IMAGE_TAG=${2:-v$PACKAGE_VERSION}
+NAMESPACE=${1:-staging}
 
-kubectl config view
-kubectl config current-context
-helm upgrade --install --atomic --namespace=$KUBE_NAMESPACE --set env=$KUBE_NAMESPACE --set environment.DATABASE_MONGODB_DBNAME=$DATABASE_MONGODB_DBNAME --set environment.DATABASE_MONGODB_URI=$DATABASE_MONGODB_URI --set image.name=$DOCKER_IMAGE_BASENAME --set image.tag=$TRAVIS_TAG $DOCKER_IMAGE_BASENAME-$KUBE_NAMESPACE ./infrastructure/$DOCKER_IMAGE_BASENAME
+read -p "Deploying $IMAGE_TAG to $NAMESPACE. Press [enter] to continue..."
+
+helm upgrade --install --atomic $PACKAGE_NAME-${NAMESPACE} \
+  --set "env=${NAMESPACE}" \
+  --set "image.tag=$IMAGE_TAG" \
+  --set "environment.DATABASE_MONGODB_URI=$DATABASE_MONGODB_URI" \
+  --set "environment.DATABASE_MONGODB_DBNAME=$DATABASE_MONGODB_DBNAME"
+  --namespace $NAMESPACE \
+$CURRENT_DIR/$PACKAGE_NAME
