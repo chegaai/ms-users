@@ -19,7 +19,7 @@ export const config: IAppConfig = {
   database: {
     mongodb: {
       uri: env.get('DATABASE_MONGODB_URI', ''),
-      dbName: env.get('DATABASE_MONGODB_DBNAME', 'users'),
+      dbName: env.get('DATABASE_MONGODB_DBNAME', 'chegai'),
       maximumConnectionAttempts: 5,
       options: {}
     }
