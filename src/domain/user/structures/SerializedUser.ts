@@ -9,6 +9,7 @@ export interface SerializedUser {
   email: string
   picture: string
   role: UserRoles
+  language: string
   socialNetworks: SocialNetworkObject[]
   location: LocationObject
   document: string

@@ -6,6 +6,7 @@ export interface CreateUserData {
   name: string
   email: string
   picture: string
+  language: string
   socialNetworks: SocialNetworkObject[]
   location: {
     country: string

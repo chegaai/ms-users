@@ -26,6 +26,7 @@ export class User extends BaseEntity {
     country: '',
     state: ''
   }
+  language: string = 'pt-br'
   document: string = ''
   groups: ObjectId[] = []
   tags: string[] = []
@@ -44,6 +45,7 @@ export class User extends BaseEntity {
     user.role = data.role
     user.socialNetworks = data.socialNetworks
     user.tags = data.tags
+    user.language = data.language
 
     if (data.createdAt) user.createdAt = data.createdAt
     if (data.deletedAt) user.deletedAt = data.deletedAt
