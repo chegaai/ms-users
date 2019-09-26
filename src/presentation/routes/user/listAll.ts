@@ -5,10 +5,10 @@ import { UserService } from '../../../services/UserService'
 export function factory (service: UserService) {
   return [
     rescue(async (_req: Request, res: Response) => {
-      const companies = await service.listAll()
+      const users = await service.listAll()
 
       res.status(200)
-        .json(companies)
+        .json(users)
     }),
     (err: any, _req: Request, _res: Response, next: NextFunction) => {
       next(err)
