@@ -17,6 +17,7 @@ export enum UserRoles {
 export class User extends BaseEntity {
   id: ObjectId = new ObjectId()
   username: string = ''
+  password: string = ''
   name: string = ''
   email: string = ''
   picture: string = ''
@@ -37,6 +38,7 @@ export class User extends BaseEntity {
     user.id = id
     user.name = data.name
     user.document = data.document
+    user.password = data.password
     user.groups = data.groups.map((group: string | ObjectId) => new ObjectId(group))
     user.location = data.location
     user.picture = data.picture
@@ -57,6 +59,7 @@ export class User extends BaseEntity {
   update (dataToUpdate: CreateUserData): User {
     this.name = dataToUpdate.name
     this.name = dataToUpdate.name
+    this.password = dataToUpdate.password
     this.document = dataToUpdate.document
     this.groups = dataToUpdate.groups.map((group: string | ObjectId) => new ObjectId(group))
     this.location = dataToUpdate.location
@@ -76,6 +79,7 @@ export class User extends BaseEntity {
       username: this.username,
       name: this.name,
       email: this.email,
+      password: this.password,
       picture: this.picture,
       socialNetworks: this.socialNetworks,
       language: this.language,

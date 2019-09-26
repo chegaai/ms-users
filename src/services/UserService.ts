@@ -6,11 +6,16 @@ import { UserNotFoundError } from '../domain/user/errors/UserNotFoundError'
 import { UserAlreadyExistsError } from '../domain/user/errors/UserAlreadyExistsError'
 import { User } from '../domain/user/User'
 import { CreateUserData } from '../domain/user/structures/CreateUserData'
+import { Crypto } from '../utils/Crypto'
+import { InvalidLoginError } from '../domain/user/errors/InvalidLoginError'
+import { JWT } from '../utils/JWT'
 
 @injectable()
 export class UserService {
   constructor (
-    private readonly repository: UserRepository
+    private readonly repository: UserRepository,
+    private readonly crypto: Crypto,
+    private readonly jwt: JWT
   ) { }
 
   async create (creationData: CreateUserData): Promise<User> {
@@ -18,6 +23,7 @@ export class UserService {
 
     // TODO: send the image to cloud
 
+    creationData.password = await this.crypto.encrypt(creationData.password)
     const user: User = User.create(new ObjectId(), creationData)
 
     return this.repository.save(user)
@@ -51,6 +57,15 @@ export class UserService {
 
     if (!user) throw new UserNotFoundError(id)
     return user
+  }
+
+  async authenticate (handle: string, plainPassword: string) {
+    const user = await this.repository.findByHandle(handle)
+    if (!user) throw new UserNotFoundError(handle)
+
+    if (!await this.crypto.verify(plainPassword, user.password)) throw new InvalidLoginError()
+
+    return this.jwt.sign(user)
   }
 
   async listAll (): Promise<PaginatedQueryResult<User>> {

@@ -27,6 +27,7 @@
     "@expresso/validator": "^1.0.4",
     "@nindoo/mongodb-data-layer": "^2.0.2",
     "express-rescue": "^1.1.22",
+    "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "sugar-env": "^1.5.7",
     "tsyringe": "^3.3.0"

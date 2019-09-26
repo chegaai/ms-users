@@ -3,7 +3,7 @@ import { IExpressoConfigOptions } from '@expresso/app'
 import { IMongoParams } from '@nindoo/mongodb-data-layer'
 import { IServerConfig } from '@expresso/server'
 
-export interface IAppConfig extends IExpressoConfigOptions {
+interface BaseConfig extends IExpressoConfigOptions {
   name: string,
   database: {
     mongodb: IMongoParams
@@ -11,7 +11,9 @@ export interface IAppConfig extends IExpressoConfigOptions {
   server?: IServerConfig['server']
 }
 
-export const config: IAppConfig = {
+export type IAppConfig = BaseConfig & typeof config
+
+export const config = {
   name: 'ms-user',
   server: {
     printOnListening: true,
@@ -23,5 +25,16 @@ export const config: IAppConfig = {
       maximumConnectionAttempts: 5,
       options: {}
     }
+  },
+  jwt: {
+    secret: env.get('JWT_SECRET', ''),
+    audience: env.get('JWT_AUDIENCE', 'urn:chega.ai:users'),
+    expiration: env.get('JWT_EXPIRATION', '1d')
+  },
+  auth: {
+    salt: env.get('AUTH_SALT', ''),
+    keylen: env.get.int('AUTH_KEYLEN', 64),
+    digest: env.get('AUTH_DIGEST', 'sha512'),
+    iterations: env.get.int('AUTH_ITERATIONS', 10000)
   }
 }

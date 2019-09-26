@@ -4,6 +4,7 @@ import { ObjectId } from 'bson'
 export interface CreateUserData {
   username: string
   name: string
+  password: string
   email: string
   picture: string
   language: string
