@@ -18,7 +18,7 @@ export class UserService {
     private readonly jwt: JWT
   ) { }
 
-  async create (creationData: CreateUserData): Promise<User> {
+  async create (creationData: CreateUserData): Promise<any> {
     if (await this.repository.existsByDocument(creationData.document)) throw new UserAlreadyExistsError(creationData.document)
 
     // TODO: send the image to cloud
@@ -26,7 +26,9 @@ export class UserService {
     creationData.password = await this.crypto.encrypt(creationData.password)
     const user: User = User.create(new ObjectId(), creationData)
 
-    return this.repository.save(user)
+    await this.repository.save(user)
+
+    return this.authenticate(user.username, user.password)
   }
 
   async update (id: string, dataToUpdate: Partial<CreateUserData>): Promise<User> {
