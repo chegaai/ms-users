@@ -12,6 +12,7 @@ export function factory (service: UserService) {
       type: 'object',
       properties: {
         username: { type: 'string' },
+        password: { type: 'string' },
         name: {
           type: 'string'
         },
@@ -46,7 +47,7 @@ export function factory (service: UserService) {
         },
         document: { type: 'string' }
       },
-      required: ['name', 'email', 'location', 'document', 'tags', 'language'],
+      required: ['name', 'username', 'password', 'email', 'location', 'document', 'tags', 'language'],
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {
