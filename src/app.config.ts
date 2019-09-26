@@ -36,5 +36,10 @@ export const config = {
     keylen: env.get.int('AUTH_KEYLEN', 64),
     digest: env.get('AUTH_DIGEST', 'sha512'),
     iterations: env.get.int('AUTH_ITERATIONS', 10000)
+  },
+  microServices: {
+    group: {
+      url: env.get('MICROSERVICES_GROUP_URL', '')
+    }
   }
 }

@@ -11,6 +11,7 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   container.register('MongodbConnection', { useValue: mongodbConnection })
   container.register('AuthConfig', { useValue: config.auth })
   container.register('JWTConfig', { useValue: config.jwt })
+  container.register('GroupServiceConnection', { useValue: config.microServices.group })
 
   const services = container.resolve(Services)
 
@@ -20,6 +21,7 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   app.post('/login', routes.login(services.user))
   app.put('/users/:userId', routes.update(services.user))
   app.delete('/users/:userId', routes.remove(services.user))
+  app.put('/users/:userId/followed-groups', routes.followGroup(services.user))
 
   app.use(errors(environment))
 })

@@ -28,7 +28,7 @@ export class UserRepository extends MongodbRepository<User, SerializedUser> {
     return this.findOneBy({ $or: [{ username: handle }, { email: handle }], deletedAt: null })
   }
 
-  async getAll (): Promise<PaginatedQueryResult<User>> {
-    return this.runPaginatedQuery({ deletedAt: null })
+  async getAll (page: number, size: number): Promise<PaginatedQueryResult<User>> {
+    return this.runPaginatedQuery({ deletedAt: null }, page, size)
   }
 }

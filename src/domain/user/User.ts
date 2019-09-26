@@ -73,6 +73,12 @@ export class User extends BaseEntity {
     return this
   }
 
+  followGroup (groupId: ObjectId) {
+    this.groups.push(groupId)
+    this.updatedAt = new Date()
+    return this
+  }
+
   toObject () {
     return {
       _id: this.id,

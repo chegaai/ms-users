@@ -9,11 +9,14 @@ import { CreateUserData } from '../domain/user/structures/CreateUserData'
 import { Crypto } from '../utils/Crypto'
 import { InvalidLoginError } from '../domain/user/errors/InvalidLoginError'
 import { JWT } from '../utils/JWT'
+import { GroupClient } from '../data/repositories/GroupClient'
+import { GroupNotFoundError } from '../domain/user/errors/GroupNotFoundError'
 
 @injectable()
 export class UserService {
   constructor (
     private readonly repository: UserRepository,
+    private readonly groupClient: GroupClient,
     private readonly crypto: Crypto,
     private readonly jwt: JWT
   ) { }
@@ -70,7 +73,21 @@ export class UserService {
     return this.jwt.sign(user)
   }
 
-  async listAll (): Promise<PaginatedQueryResult<User>> {
-    return this.repository.getAll()
+  async followGroup (userId: string, groupId: string) {
+    const user = await this.repository.findById(userId)
+    if (!user) throw new UserNotFoundError(userId)
+
+    const group = await this.groupClient.findGroupById(groupId)
+    if (!group) throw new GroupNotFoundError(groupId)
+
+    user.followGroup(new ObjectId(groupId))
+
+    await this.repository.save(user)
+
+    return user
+  }
+
+  async listAll (page: number, size: number): Promise<PaginatedQueryResult<User>> {
+    return this.repository.getAll(page, size)
   }
 }
