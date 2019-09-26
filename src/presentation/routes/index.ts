@@ -3,6 +3,7 @@ import { factory as update } from './user/update'
 import { factory as remove } from './user/remove'
 import { factory as listAll } from './user/listAll'
 import { factory as find } from './user/find'
+import { factory as login } from './user/login'
 
 
 export const routes = {
@@ -10,5 +11,6 @@ export const routes = {
   update,
   remove,
   find,
+  login,
   listAll
 }
