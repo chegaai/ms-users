@@ -15,7 +15,7 @@ export interface CreateUserData {
     city: string
   }
   document: string
-  groups: (string | ObjectId)[]
+  groups?: (string | ObjectId)[]
   tags: string[]
   role: UserRoles
 }
