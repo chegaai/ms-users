@@ -25,13 +25,12 @@ export class UserService {
     if (await this.repository.existsByDocument(creationData.document)) throw new UserAlreadyExistsError(creationData.document)
 
     // TODO: send the image to cloud
+    // TODO: validate if not exist the same email in the database
 
     creationData.password = await this.crypto.encrypt(creationData.password)
     const user: User = User.create(new ObjectId(), creationData)
 
-    await this.repository.save(user)
-
-    return this.authenticate(user.username, user.password)
+    return this.repository.save(user)
   }
 
   async update (id: string, dataToUpdate: Partial<CreateUserData>): Promise<User> {

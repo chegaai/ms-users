@@ -39,7 +39,11 @@ export class User extends BaseEntity {
     user.name = data.name
     user.document = data.document
     user.password = data.password
-    user.groups = data.groups.map((group: string | ObjectId) => new ObjectId(group))
+    // TODO: refactory the update method to receive an UpdateUserData instead 
+    // CreateUserData and remove the groups from CreateUserData
+    if (data.groups) {
+      user.groups = data.groups.map((group: string | ObjectId) => new ObjectId(group))
+    }
     user.location = data.location
     user.picture = data.picture
     user.email = data.email
@@ -61,7 +65,11 @@ export class User extends BaseEntity {
     this.name = dataToUpdate.name
     this.password = dataToUpdate.password
     this.document = dataToUpdate.document
-    this.groups = dataToUpdate.groups.map((group: string | ObjectId) => new ObjectId(group))
+    // TODO: refactory the update method to receive an UpdateUserData instead 
+    // CreateUserData and remove the groups from CreateUserData
+    if (dataToUpdate.groups) {
+      this.groups = dataToUpdate.groups.map((group: string | ObjectId) => new ObjectId(group))
+    }
     this.location = dataToUpdate.location
     this.picture = dataToUpdate.picture
     this.email = dataToUpdate.email
