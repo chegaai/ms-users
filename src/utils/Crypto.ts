@@ -58,7 +58,7 @@ export class Crypto {
    * Verifies a password against a hash
    * @param password - Password to be verified
    * @param hash - Encrypted password to verify against
-   * @returns true if both passswords match; false otherwise
+   * @returns true if both passswords match false otherwise
    */
   async verify (password: string, hashedValue: string): Promise<boolean> {
     const [hash, salt] = hashedValue.split('.')

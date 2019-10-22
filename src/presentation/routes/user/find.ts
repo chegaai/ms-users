@@ -2,7 +2,7 @@ import rescue from 'express-rescue'
 import { boom } from '@expresso/errors'
 import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../../../services/UserService'
-import { UserNotFoundError } from '../../../domain/user/errors/UserNotFoundError';
+import { UserNotFoundError } from '../../../domain/user/errors/UserNotFoundError'
 
 export function factory (service: UserService) {
   return [

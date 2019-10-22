@@ -4,7 +4,7 @@ import { validate } from '@expresso/validator'
 import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../../../services/UserService'
 import { UserAlreadyExistsError } from '../../../domain/user/errors/UserAlreadyExistsError'
-import { InvalidUserError } from '../../../domain/user/errors/InvalidUserError';
+import { InvalidUserError } from '../../../domain/user/errors/InvalidUserError'
 
 export function factory (service: UserService) {
   return [
