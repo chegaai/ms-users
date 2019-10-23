@@ -1,0 +1,87 @@
+@host = ms-users.127.0.0.1.nip.io
+@port = 80
+
+### Create user
+# @name createUser
+POST http://{{host}}:{{port}}/
+Content-Type: application/json
+
+{
+  "username": "lucas",
+  "password": "123mudar",
+  "name": "Lucas Santos",
+  "email": "test@test.com",
+  "picture": "base64",
+  "socialNetworks": [
+    { "name": "Twitter", "link": "https://twitter.com/_staticvoid" },
+    { "name": "GitHub", "link": "https://github.com/khaosdoctor" }
+  ],
+  "language": "pt-br",
+  "location": {
+    "country": "BR",
+    "state": "São Paulo",
+    "city": "Santo André"
+  },
+  "tags": ["javascript","typescript","kubernetes"],
+  "document": "12345678901"
+}
+
+### User Login
+# @name userLogin
+POST http://{{host}}:{{port}}/login
+Content-Type: application/json
+
+{
+  "handle": "lucas",
+  "password": "123mudar"
+}
+
+### List users
+GET http://{{host}}:{{port}}/
+
+### Delete user
+# @name deleteUser
+@userId = 5db0a1f2a6fdaf0010485533
+
+DELETE http://{{host}}:{{port}}/{{userId}}
+
+### Update user
+# @name updateUser
+@userId = 5db0a1f2a6fdaf0010485533
+
+PUT http://{{host}}:{{port}}/{{userId}}
+Content-Type: application/json
+
+{
+  "name": "Lucas Santos",
+  "email": "test@test.com",
+  "picture": "base64",
+  "socialNetworks": [
+    { "name": "Twitter", "link": "https://twitter.com/_staticvoid" },
+    { "name": "GitHub", "link": "https://github.com/khaosdoctor" }
+  ],
+  "language": "pt-br",
+  "location": {
+    "country": "BR",
+    "state": "São Paulo",
+    "city": "Santo André"
+  },
+  "tags": ["javascript","kubernetes"]
+}
+
+### Get user
+# @name getUser
+@userId = 5db0a1f2a6fdaf0010485533
+
+GET http://{{host}}:{{port}}/{{userId}}
+
+### Follow Group
+# @name followGroup
+@userId = 5db0a1f2a6fdaf0010485533
+
+PUT http://{{host}}:{{port}}/{{userId}}/followed-groups
+Content-Type: application/json
+
+{
+  "groupId": "123123"
+}
