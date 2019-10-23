@@ -18,15 +18,15 @@ export function factory (service: UserService) {
           type: 'string'
         }
       },
-      required: ['password', 'username'],
+      required: ['password', 'handle'],
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {
       const { password, handle } = req.body
-      const user = await service.authenticate(handle, password)
+      const token = await service.authenticate(handle, password)
 
       res.status(200)
-        .json(user)
+        .json({ token })
     }),
     (err: any, _req: Request, _res: Response, next: NextFunction) => {
       if (err instanceof UserNotFoundError || err instanceof InvalidLoginError) return next(boom.unauthorized(err.message))
