@@ -10,9 +10,7 @@ export function factory (service: UserService) {
     validate({
       type: 'object',
       properties: {
-        name: {
-          type: 'string'
-        },
+        name: { type: 'string' },
         email: { type: 'string' },
         picture: { type: 'string' },
         socialNetworks: {
@@ -25,6 +23,7 @@ export function factory (service: UserService) {
             }
           }
         },
+        language: { type: 'string' },
         location: {
           type: 'object',
           properties: {
@@ -41,7 +40,6 @@ export function factory (service: UserService) {
         },
         document: { type: 'string' },
       },
-      required: ['name', 'email', 'location', 'document', 'tags'],
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {
