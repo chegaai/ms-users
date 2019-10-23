@@ -73,8 +73,11 @@ export class UserService {
   }
 
   async followGroup (userId: string, groupId: string) {
+    if (!ObjectId.isValid(groupId)) throw new TypeError('Invalid group ID')
+
     const user = await this.repository.findById(userId)
-    if (!user) throw new UserNotFoundError(userId)
+    if (!user || user.deletedAt) throw new UserNotFoundError(userId)
+
 
     const group = await this.groupClient.findGroupById(groupId)
     if (!group) throw new GroupNotFoundError(groupId)
