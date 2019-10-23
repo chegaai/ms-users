@@ -1,7 +1,7 @@
 import { DomainError } from '../../domain.error'
 
 export class UserAlreadyExistsError extends DomainError {
-  constructor (document: string) {
-    super(`User with document ${document} already exists`)
+  constructor (key: string, value: string) {
+    super(`User with ${key} "${value}" already exists`)
   }
 }

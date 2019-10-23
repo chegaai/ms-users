@@ -24,6 +24,10 @@ export class UserRepository extends MongodbRepository<User, SerializedUser> {
     return this.existsBy({ document: document, deletedAt: null })
   }
 
+  async existsByEmail (email: string): Promise<boolean> {
+    return this.existsBy({ email: email, deletedAt: null })
+  }
+
   async findByHandle (handle: string) {
     return this.findOneBy({ $or: [{ username: handle }, { email: handle }], deletedAt: null })
   }

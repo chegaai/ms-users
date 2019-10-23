@@ -22,7 +22,8 @@ export class UserService {
   ) { }
 
   async create (creationData: CreateUserData): Promise<any> {
-    if (await this.repository.existsByDocument(creationData.document)) throw new UserAlreadyExistsError(creationData.document)
+    if (await this.repository.existsByDocument(creationData.document)) throw new UserAlreadyExistsError('document', creationData.document)
+    if (await this.repository.existsByEmail(creationData.email)) throw new UserAlreadyExistsError('email', creationData.email)
 
     // TODO: send the image to cloud
     // TODO: validate if not exist the same email in the database
