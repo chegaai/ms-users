@@ -8,13 +8,14 @@ interface BaseConfig extends IExpressoConfigOptions {
   database: {
     mongodb: IMongoParams
   },
+
   server?: IServerConfig['server']
 }
 
 export type IAppConfig = BaseConfig & typeof config
 
 export const config = {
-  name: 'ms-user',
+  name: 'ms-users',
   server: {
     printOnListening: true,
   },
@@ -23,7 +24,10 @@ export const config = {
       uri: env.get('DATABASE_MONGODB_URI', ''),
       dbName: env.get('DATABASE_MONGODB_DBNAME', 'chegaai'),
       maximumConnectionAttempts: 5,
-      options: {}
+      options: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }
     }
   },
   jwt: {
