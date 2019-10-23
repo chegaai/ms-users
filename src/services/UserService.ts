@@ -26,7 +26,6 @@ export class UserService {
     if (await this.repository.existsByEmail(creationData.email)) throw new UserAlreadyExistsError('email', creationData.email)
 
     // TODO: send the image to cloud
-    // TODO: validate if not exist the same email in the database
 
     creationData.password = await this.crypto.encrypt(creationData.password)
     const user: User = User.create(new ObjectId(), creationData)
@@ -36,7 +35,7 @@ export class UserService {
 
   async update (id: string, dataToUpdate: Partial<CreateUserData>): Promise<User> {
     const user = await this.repository.findById(id)
-    if (!user) throw new UserNotFoundError(id)
+    if (!user || user.deletedAt) throw new UserNotFoundError(id)
 
     const updatedData = {
       ...user.toObject(),
