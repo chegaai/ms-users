@@ -41,15 +41,13 @@ GET http://{{host}}:{{port}}/
 
 ### Delete user
 # @name deleteUser
-@userId = 5db0a1f2a6fdaf0010485533
 
-DELETE http://{{host}}:{{port}}/{{userId}}
+DELETE http://{{host}}:{{port}}/5dbe22606de0af00112acb07
 
 ### Update user
 # @name updateUser
-@userId = 5db0a1f2a6fdaf0010485533
 
-PUT http://{{host}}:{{port}}/{{userId}}
+PUT http://{{host}}:{{port}}/5dbe22606de0af00112acb07
 Content-Type: application/json
 
 {
@@ -71,15 +69,13 @@ Content-Type: application/json
 
 ### Get user
 # @name getUser
-@userId = 5db0a1f2a6fdaf0010485533
 
-GET http://{{host}}:{{port}}/{{userId}}
+GET http://{{host}}:{{port}}/5dbe22606de0af00112acb07
 
 ### Follow Group
 # @name followGroup
-@userId = 5db0a1f2a6fdaf0010485533
 
-PUT http://{{host}}:{{port}}/{{userId}}/followed-groups
+PUT http://{{host}}:{{port}}/5dbe22606de0af00112acb07/followed-groups
 Content-Type: application/json
 
 {
