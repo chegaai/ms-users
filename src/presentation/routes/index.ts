@@ -5,6 +5,7 @@ import { factory as listAll } from './user/listAll'
 import { factory as find } from './user/find'
 import { factory as login } from './user/login'
 import { factory as followGroup } from './user/followGroup'
+import { factory as unfollowGroup } from './user/unfollowGroup'
 
 
 export const routes = {
@@ -14,5 +15,6 @@ export const routes = {
   find,
   login,
   listAll,
-  followGroup
+  followGroup,
+  unfollowGroup
 }

@@ -89,6 +89,23 @@ export class UserService {
     return user
   }
 
+  async unfollowGroup (userId: string, groupId: string) {
+    if (!ObjectId.isValid(groupId)) throw new TypeError('Invalid group ID')
+
+    const user = await this.repository.findById(userId)
+    if (!user || user.deletedAt) throw new UserNotFoundError(userId)
+
+
+    const group = await this.groupClient.findGroupById(groupId)
+    if (!group) throw new GroupNotFoundError(groupId)
+
+    user.unfollowGroup(new ObjectId(groupId))
+
+    await this.repository.save(user)
+
+    return user
+  }
+
   async listAll (page: number, size: number): Promise<PaginatedQueryResult<User>> {
     return this.repository.getAll(page, size)
   }

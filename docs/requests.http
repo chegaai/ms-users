@@ -81,3 +81,13 @@ Content-Type: application/json
 {
   "groupId": "123123"
 }
+
+### Unfollow Group
+# @name unfollowGroup
+
+DELETE http://{{host}}:{{port}}/5dbe22606de0af00112acb07/followed-groups
+Content-Type: application/json
+
+{
+  "groupId": "123123"
+}

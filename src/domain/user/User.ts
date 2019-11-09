@@ -86,6 +86,12 @@ export class User extends BaseEntity {
     return this
   }
 
+  unfollowGroup (groupId: ObjectId) {
+    this.groups = this.groups.filter(followedGroup => followedGroup !== groupId)
+    this.updatedAt = new Date()
+    return this
+  }
+
   toObject () {
     return {
       _id: this.id,

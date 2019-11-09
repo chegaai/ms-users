@@ -23,6 +23,7 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   app.delete('/:userId', routes.remove(services.user))
   // @TODO: Remove :userId from route and substitute by JWT token
   app.put('/:userId/followed-groups', routes.followGroup(services.user))
+  app.delete('/:userId/followed-groups', routes.unfollowGroup(services.user))
 
   app.use(errors(environment))
 })
