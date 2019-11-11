@@ -45,5 +45,11 @@ export const config = {
     group: {
       url: env.get('MICROSERVICES_GROUP_URL', '')
     }
+  },
+  clients: {
+    mail: {
+      url: env.get('CLIENTS_MAIL_URL', 'http://ms-clients:3000'),
+      timeout: env.get.int('CLIENTS_MAIL_TIMEOUT', 3000)
+    }
   }
 }
