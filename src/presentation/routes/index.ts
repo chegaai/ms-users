@@ -1,20 +1,22 @@
-import { factory as create } from './user/create'
-import { factory as update } from './user/update'
-import { factory as remove } from './user/remove'
-import { factory as listAll } from './user/listAll'
+import setPassword from './user/setPassword'
 import { factory as find } from './user/find'
+import { factory as getMe } from './user/getMe'
 import { factory as login } from './user/login'
-import { factory as followGroup } from './user/followGroup'
-import { factory as unfollowGroup } from './user/unfollowGroup'
+import { factory as create } from './user/create'
+import { factory as remove } from './user/remove'
+import recoverPassword from './user/recoverPassword'
+import { factory as listAll } from './user/listAll'
+import requestPasswordRecovery from './user/requestPasswordRecovery'
 
 
 export const routes = {
   create,
-  update,
+  getMe,
   remove,
   find,
   login,
   listAll,
-  followGroup,
-  unfollowGroup
+  requestPasswordRecovery,
+  recoverPassword,
+  setPassword
 }

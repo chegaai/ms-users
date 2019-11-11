@@ -12,7 +12,8 @@ export class UserRepository extends MongodbRepository<User, SerializedUser> {
   }
 
   serialize (entity: User): SerializedUser {
-    return entity.toObject()
+    const { id, ...data } = entity
+    return { _id: id, ...data }
   }
 
   deserialize (data: SerializedUser): User {
@@ -26,6 +27,10 @@ export class UserRepository extends MongodbRepository<User, SerializedUser> {
 
   async existsByEmail (email: string): Promise<boolean> {
     return this.existsBy({ email: email, deletedAt: null })
+  }
+
+  async findByEmail (email: string): Promise<User | null> {
+    return this.findOneBy({ email })
   }
 
   async findByHandle (handle: string) {

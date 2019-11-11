@@ -15,15 +15,20 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
 
   const services = container.resolve(Services)
 
-  app.get('/:userId', routes.find(services.user))
+  app.get('/me', routes.getMe(services.user))
   app.get('/', routes.listAll(services.user))
   app.post('/', routes.create(services.user))
-  app.post('/login', routes.login(services.user))
-  app.put('/:userId', routes.update(services.user))
+  app.get('/:userId', routes.find(services.user))
   app.delete('/:userId', routes.remove(services.user))
-  // @TODO: Remove :userId from route and substitute by JWT token
-  app.put('/:userId/followed-groups', routes.followGroup(services.user))
-  app.delete('/:userId/followed-groups', routes.unfollowGroup(services.user))
+
+  // Change password
+  app.put('/:userId/password', routes.setPassword.factory(services.user))
+
+  // Password recovery process
+  app.post('/password-recovery', routes.requestPasswordRecovery.factory(services.user))
+  app.put('/password-recovery', routes.recoverPassword.factory(services.user))
+
+  app.post('/login', routes.login(services.user))
 
   app.use(errors(environment))
 })

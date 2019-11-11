@@ -13,41 +13,10 @@ export function factory (service: UserService) {
       properties: {
         username: { type: 'string' },
         password: { type: 'string' },
-        name: {
-          type: 'string'
-        },
         email: { type: 'string' },
-        picture: { type: 'string' },
-        socialNetworks: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: { type: 'string' },
-              link: { type: 'string' }
-            }
-          }
-        },
-        language: {
-          type: 'string'
-        },
-        location: {
-          type: 'object',
-          properties: {
-            country: { type: 'string' },
-            state: { type: 'string' },
-            city: { type: 'string' }
-          }
-        },
-        tags: {
-          type: 'array',
-          items: {
-            type: 'string'
-          }
-        },
         document: { type: 'string' }
       },
-      required: ['name', 'username', 'password', 'email', 'location', 'document', 'tags', 'language'],
+      required: ['username', 'password', 'email', 'document'],
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {

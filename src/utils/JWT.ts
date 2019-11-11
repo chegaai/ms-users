@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { injectable, inject } from 'tsyringe'
 import { User } from '../domain/user/User'
+import { injectable, inject } from 'tsyringe'
 
 /**
  * @property salt - Salt to be used when encrypting
@@ -34,7 +34,11 @@ export class JWT {
     this.expiration = expiration
   }
 
-  sign (data: User) {
+  signPayload (payload: any, subject: string, ttl: string) {
+    return jwt.sign(payload, this.secret, { audience: this.audience, expiresIn: ttl, issuer: this.issuer, subject })
+  }
+
+  signUser (data: User) {
     const { password, id, ...payload } = data
     return jwt.sign(payload, this.secret, { audience: this.audience, expiresIn: this.expiration, issuer: this.issuer, subject: `${this.subjectUrn}:${id}` })
   }
