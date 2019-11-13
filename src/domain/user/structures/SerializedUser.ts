@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson'
-import { UserRoles, LocationObject, SocialNetworkObject } from '../User'
+import { UserRoles} from '../User'
 import { Nullable } from '../../../utils/Nullable'
 
 export interface SerializedUser {
