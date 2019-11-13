@@ -29,3 +29,5 @@ export function factory (service: UserService) {
     }
   ]
 }
+
+export default { factory }

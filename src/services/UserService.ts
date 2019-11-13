@@ -13,6 +13,7 @@ import { InvalidLoginError } from '../domain/user/errors/InvalidLoginError'
 import { UserAlreadyExistsError } from '../domain/user/errors/UserAlreadyExistsError'
 import { PasswordResetTemplate } from '../data/clients/mail-templates/PasswordResetTemplate'
 import { InvalidPasswordError } from './errors/InvalidPasswordError'
+import { UserUpdateData } from './structures/types/UserUpdateData'
 
 function validateTokenPayload (payload: { sub?: string, action?: string } | string, expectedAction: string) {
   if (typeof payload === 'string') throw new InvalidTokenError(payload)
@@ -115,5 +116,17 @@ export class UserService {
 
   async listAll (page: number, size: number): Promise<PaginatedQueryResult<User>> {
     return this.repository.getAll(page, size)
+  }
+
+  async update (id: string, data: UserUpdateData): Promise<User> {
+    const user = await this.find(id)
+
+    if (user.username === data.username) return user
+
+    user.username = data.username
+
+    await this.repository.save(user)
+
+    return user
   }
 }
