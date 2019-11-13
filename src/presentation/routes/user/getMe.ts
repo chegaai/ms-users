@@ -3,12 +3,13 @@ import { boom } from '@expresso/errors'
 import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../../../services/UserService'
 import { UserNotFoundError } from '../../../domain/user/errors/UserNotFoundError'
+import { IExpressoRequest } from '@expresso/app'
 
 export function factory (service: UserService) {
   return [
-    rescue(async (req: Request, res: Response) => {
-      const userId = (req as any).onBehalfOf
-      const user = await service.find(userId)
+    rescue(async (req: IExpressoRequest, res: Response) => {
+      const userId = req.onBehalfOf
+      const user = await service.find(userId as string)
 
       res.status(200)
         .json(user.toObject())

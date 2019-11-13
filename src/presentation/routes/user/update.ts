@@ -5,6 +5,7 @@ import { UserService } from '../../../services/UserService'
 import { Request, Response, NextFunction } from 'express'
 import { UserNotFoundError } from '../../../domain/user/errors/UserNotFoundError'
 import e = require('express')
+import { IExpressoRequest } from '@expresso/app'
 
 export function factory (service: UserService) {
   return [
@@ -16,10 +17,12 @@ export function factory (service: UserService) {
       required: ['username'],
       additionalProperties: false
     }),
-    rescue(async (req: Request, res: Response) => {
+    rescue(async (req: IExpressoRequest<{ username: string }>, res: Response) => {
       const { username } = req.body
 
-      const user = await service.update((req as any).onBehalfOf, { username })
+      const userId = req.onBehalfOf as string
+
+      const user = await service.update(userId, { username })
 
       res.status(200)
         .json(user.toObject())

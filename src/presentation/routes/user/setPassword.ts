@@ -5,6 +5,7 @@ import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../../../services/UserService'
 import { UserNotFoundError } from '../../../domain/user/errors/UserNotFoundError'
 import { InvalidPasswordError } from '../../../services/errors/InvalidPasswordError'
+import { IExpressoRequest } from '@expresso/app'
 
 export function factory (service: UserService) {
   return [
@@ -17,8 +18,8 @@ export function factory (service: UserService) {
       required: ['newPassword', 'oldPassword'],
       additionalProperties: false
     }),
-    rescue(async (req: Request, res: Response) => {
-      const userId = (req as any).onBehalfOf
+    rescue(async (req: IExpressoRequest<Record<string, string>>, res: Response) => {
+      const userId = req.onBehalfOf as string
       const { oldPassword, newPassword } = req.body
 
       await service.setPassword(userId, oldPassword, newPassword)
