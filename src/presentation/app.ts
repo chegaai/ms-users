@@ -26,7 +26,7 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   app.delete('/:userId', routes.remove.factory(services.user))
 
   // Change password
-  app.put('/:userId/password', routes.setPassword.factory(services.user))
+  app.put('/me/password', routes.setPassword.factory(services.user))
 
   // Password recovery process
   app.post('/password-recovery', routes.requestPasswordRecovery.factory(services.user))
