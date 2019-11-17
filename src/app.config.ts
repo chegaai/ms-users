@@ -50,6 +50,10 @@ export const config = {
     mail: {
       url: env.get('CLIENTS_MAIL_URL', 'http://ms-clients:3000'),
       timeout: env.get.int('CLIENTS_MAIL_TIMEOUT', 3000)
+    },
+    profiles: {
+      url: env.get('CLIENTS_PROFILES_URL', 'http://ms-profiles:3000'),
+      timeout: env.get.int('CLIENTS_PROFILE_TIMEOUT', 3000)
     }
   }
 }

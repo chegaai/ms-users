@@ -1,19 +1,21 @@
 import { ObjectId } from 'bson'
 import { JWT } from '../utils/JWT'
-import { injectable } from 'tsyringe'
 import { Crypto } from '../utils/Crypto'
 import { User } from '../domain/user/User'
+import { injectable, inject } from 'tsyringe'
 import { MailClient } from '../data/clients/MailClient'
+import { ProfileClient } from '../data/clients/ProfileClient'
 import { InvalidTokenError } from './errors/InvalidTokenError'
 import { PaginatedQueryResult } from '@nindoo/mongodb-data-layer'
+import { UserUpdateData } from './structures/types/UserUpdateData'
 import { UserRepository } from '../data/repositories/UserRepository'
+import { InvalidPasswordError } from './errors/InvalidPasswordError'
 import { CreateUserData } from '../domain/user/structures/CreateUserData'
 import { UserNotFoundError } from '../domain/user/errors/UserNotFoundError'
 import { InvalidLoginError } from '../domain/user/errors/InvalidLoginError'
 import { UserAlreadyExistsError } from '../domain/user/errors/UserAlreadyExistsError'
+import { ProfileCreationParams } from '../data/clients/structures/ProfileCreationParams'
 import { PasswordResetTemplate } from '../data/clients/mail-templates/PasswordResetTemplate'
-import { InvalidPasswordError } from './errors/InvalidPasswordError'
-import { UserUpdateData } from './structures/types/UserUpdateData'
 
 function validateTokenPayload (payload: { sub?: string, action?: string } | string, expectedAction: string) {
   if (typeof payload === 'string') throw new InvalidTokenError(payload)
@@ -30,28 +32,36 @@ export class UserService {
     private readonly repository: UserRepository,
     private readonly crypto: Crypto,
     private readonly jwt: JWT,
-    private readonly mailClient: MailClient
+    private readonly mailClient: MailClient,
+    @inject('ProfileClient') private readonly profileClient: ProfileClient
   ) { }
 
-  async ensureUserDoesNotExist (document: string, email: string) {
+  async ensureUserDoesNotExist ({ document, email, username }: CreateUserData) {
     if (await this.repository.existsByDocument(document)) {
       throw new UserAlreadyExistsError('document', document)
     }
 
-    if (await this.repository.existsByEmail(email)) {
+    if (await this.repository.existsByEmail(email) || await this.profileClient.exists(email)) {
       throw new UserAlreadyExistsError('email', email)
+    }
+
+    if (await this.repository.existsByUsername(username)) {
+      throw new UserAlreadyExistsError('username', username)
     }
   }
 
-  async create (creationData: CreateUserData): Promise<any> {
-    await this.ensureUserDoesNotExist(creationData.document, creationData.email)
+  async create (creationData: CreateUserData, profileData: Omit<ProfileCreationParams, 'id'>) {
+    await this.ensureUserDoesNotExist(creationData)
 
     // TODO: send the image to cloud
 
     creationData.password = await this.crypto.encrypt(creationData.password)
     const user: User = User.create(new ObjectId(), creationData)
 
-    return this.repository.save(user)
+    await this.repository.save(user)
+    const profile = await this.profileClient.createProfile({ id: user.id.toHexString(), ...profileData })
+
+    return { user, profile }
   }
 
   async delete (id: string): Promise<void> {
@@ -75,7 +85,9 @@ export class UserService {
     const user = await this.repository.findByHandle(handle)
     if (!user) throw new UserNotFoundError(handle)
 
-    if (!await this.crypto.verify(plainPassword, user.password)) throw new InvalidLoginError()
+    if (!await this.crypto.verify(plainPassword, user.password)) {
+      throw new InvalidLoginError()
+    }
 
     return this.jwt.signUser(user)
   }

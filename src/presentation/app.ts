@@ -5,6 +5,7 @@ import errors from '@expresso/errors'
 import { Services } from '../services'
 import { IAppConfig } from '../app.config'
 import { createConnection } from '@nindoo/mongodb-data-layer'
+import { getProfileClient } from '../data/clients/ProfileClient'
 
 export const app = expresso(async (app, config: IAppConfig, environment: string) => {
   const mongodbConnection = await createConnection(config.database.mongodb)
@@ -13,6 +14,7 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   container.register('AuthConfig', { useValue: config.auth })
   container.register('MongodbConnection', { useValue: mongodbConnection })
   container.register('MailClientConfig', { useValue: config.clients.mail })
+  container.register('ProfileClient', { useValue: getProfileClient(config.clients.profiles) })
 
   const services = container.resolve(Services)
 

@@ -22,11 +22,15 @@ export class UserRepository extends MongodbRepository<User, SerializedUser> {
   }
 
   async existsByDocument (document: string): Promise<boolean> {
-    return this.existsBy({ document: document, deletedAt: null })
+    return this.existsBy({ document, deletedAt: null })
   }
 
   async existsByEmail (email: string): Promise<boolean> {
-    return this.existsBy({ email: email, deletedAt: null })
+    return this.existsBy({ email, deletedAt: null })
+  }
+
+  async existsByUsername (username: string): Promise<boolean> {
+    return this.existsBy({ username, deletedAt: null })
   }
 
   async findByEmail (email: string): Promise<User | null> {
