@@ -11,20 +11,77 @@ export function factory (service: UserService) {
     validate({
       type: 'object',
       properties: {
-        username: { type: 'string' },
-        password: { type: 'string' },
-        email: { type: 'string' },
-        document: { type: 'string' }
+        profile: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            lastName: { type: 'string' },
+            email: { type: 'string' },
+            picture: { type: 'string' },
+            socialNetworks: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  link: { type: 'string' }
+                },
+                required: [ 'link', 'name' ]
+              }
+            },
+            location: {
+              type: 'object',
+              properties: {
+                country: { type: 'string' },
+                state: { type: 'string' },
+                city: { type: 'string' }
+              },
+              required: [ 'city', 'country', 'state' ]
+            },
+            language: { type: 'string' },
+            groups: {
+              type: 'array',
+              items: { type: 'string' }
+            },
+            tags: {
+              type: 'array',
+              items: { type: 'string' }
+            }
+          },
+          required: [
+            'id',
+            'email',
+            'language',
+            'lastName',
+            'location',
+            'name',
+            'picture'
+          ]
+        },
+        user: {
+          type: 'object',
+          properties: {
+            username: { type: 'string' },
+            password: { type: 'string' },
+            email: { type: 'string' },
+            document: { type: 'string' }
+          },
+          required: ['username', 'password', 'email', 'document'],
+          additionalProperties: false
+        }
       },
-      required: ['username', 'password', 'email', 'document'],
-      additionalProperties: false
+      required: ['user', 'profile']
     }),
     rescue(async (req: Request, res: Response) => {
-      const userData = req.body
-      const user = await service.create(userData)
+      const { user: userData, profile: profileData } = req.body
+      const { user, profile } = await service.create(userData, profileData)
 
       res.status(201)
-        .json(user)
+        .json({
+          user: user.toObject(),
+          profile: profile
+        })
     }),
     (err: any, _req: Request, _res: Response, next: NextFunction) => {
       if (err instanceof UserAlreadyExistsError) return next(boom.conflict(err.message, { code: 'user_already_exists' }))
