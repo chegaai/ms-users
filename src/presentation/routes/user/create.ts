@@ -14,10 +14,8 @@ export function factory (service: UserService) {
         profile: {
           type: 'object',
           properties: {
-            id: { type: 'string' },
             name: { type: 'string' },
             lastName: { type: 'string' },
-            email: { type: 'string' },
             picture: { type: 'string' },
             socialNetworks: {
               type: 'array',
@@ -50,13 +48,10 @@ export function factory (service: UserService) {
             }
           },
           required: [
-            'id',
-            'email',
             'language',
             'lastName',
             'location',
-            'name',
-            'picture'
+            'name'
           ]
         },
         user: {

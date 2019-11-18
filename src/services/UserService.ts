@@ -50,7 +50,7 @@ export class UserService {
     }
   }
 
-  async create (creationData: CreateUserData, profileData: Omit<ProfileCreationParams, 'id'>) {
+  async create (creationData: CreateUserData, profileData: Omit<ProfileCreationParams, 'id' | 'email'>) {
     await this.ensureUserDoesNotExist(creationData)
 
     // TODO: send the image to cloud
@@ -59,7 +59,7 @@ export class UserService {
     const user: User = User.create(new ObjectId(), creationData)
 
     await this.repository.save(user)
-    const profile = await this.profileClient.createProfile({ id: user.id.toHexString(), ...profileData })
+    const profile = await this.profileClient.createProfile({ id: user.id.toHexString(), email: user.email, ...profileData })
 
     return { user, profile }
   }
