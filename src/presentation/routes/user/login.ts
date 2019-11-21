@@ -29,7 +29,8 @@ export function factory (service: UserService) {
         .json({ token })
     }),
     (err: any, _req: Request, _res: Response, next: NextFunction) => {
-      if (err instanceof UserNotFoundError || err instanceof InvalidLoginError) return next(boom.unauthorized(err.message))
+      console.error(err)
+      if (err instanceof UserNotFoundError || err instanceof InvalidLoginError) return next(boom.unauthorized("invalid handle or password"))
 
       next(err)
     }
