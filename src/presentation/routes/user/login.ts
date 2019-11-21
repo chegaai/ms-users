@@ -6,6 +6,14 @@ import { UserService } from '../../../services/UserService'
 import { UserNotFoundError } from '../../../domain/user/errors/UserNotFoundError'
 import { InvalidLoginError } from '../../../domain/user/errors/InvalidLoginError'
 
+let start: number
+
+function wrapNext (fn: Function) {
+  const left = 2000 - (Date.now() - start)
+
+  setTimeout(fn, left)
+}
+
 export function factory (service: UserService) {
   return [
     validate({
@@ -22,6 +30,7 @@ export function factory (service: UserService) {
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {
+      start = Date.now()
       const { password, handle } = req.body
       const token = await service.authenticate(handle, password)
 
@@ -29,10 +38,10 @@ export function factory (service: UserService) {
         .json({ token })
     }),
     (err: any, _req: Request, _res: Response, next: NextFunction) => {
-      console.error(err)
-      if (err instanceof UserNotFoundError || err instanceof InvalidLoginError) return next(boom.unauthorized("invalid handle or password"))
+      console.error(err.message)
+      if (err instanceof UserNotFoundError || err instanceof InvalidLoginError) return wrapNext(() => next(boom.unauthorized("invalid handle or password")))
 
-      next(err)
+      wrapNext(() => next(err))
     }
   ]
 }

@@ -1,3 +1,3 @@
-export DATABASE_MONGODB_URI=
-export DATABASE_MONGODB_DBNAME=chegai
-JWT_SECRET=
+export DATABASE_MONGODB_URI=mongodb://localost:27017
+export DATABASE_MONGODB_DBNAME=chegaai
+export JWT_SECRET=
