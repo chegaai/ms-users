@@ -23,7 +23,6 @@ export class JWT {
   private readonly audience: string
   private readonly expiration: string
   private readonly issuer: string = 'urn:chega.ai:issuer'
-  private readonly subjectUrn: string = 'urn:chega.ai:user:'
 
   /**
    * @param config Crypto configuration
@@ -40,7 +39,8 @@ export class JWT {
 
   signUser (data: User) {
     const { password, id, ...payload } = data
-    return jwt.sign(payload, this.secret, { audience: this.audience, expiresIn: this.expiration, issuer: this.issuer, subject: `${this.subjectUrn}:${id}` })
+    const urn = `urn:${payload.role}:${id}`
+    return jwt.sign(payload, this.secret, { audience: this.audience, expiresIn: this.expiration, issuer: this.issuer, subject: urn })
   }
 
   verify (token: string) {
