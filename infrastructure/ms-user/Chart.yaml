@@ -1,4 +1,4 @@
 apiVersion: v1
-description: User user microservice
-name: ms-user
+description: User microservice
+name: ms-users
 version: 0.1.0
