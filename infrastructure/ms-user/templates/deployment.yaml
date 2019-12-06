@@ -33,6 +33,8 @@ spec:
               value: {{ required "JWT Secret is required" .Values.environment.JWT_SECRET | quote }}
             - name: JWT_AUDIENCE
               value: {{ required "JWT Audience is required" .Values.environment.JWT_AUDIENCE | quote }}
+            - name: JWT_ISSUER
+              value: {{ required "JWT Issuer is required" .Values.environment.JWT_ISSUER | quote }}
           ports:
             - name: http
               containerPort: 3000
