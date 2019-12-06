@@ -32,8 +32,9 @@ export const config = {
   },
   jwt: {
     secret: env.get('JWT_SECRET', ''),
-    audience: env.get('JWT_AUDIENCE', 'urn:chega.ai:users'),
-    expiration: env.get('JWT_EXPIRATION', '1d')
+    audience: env.get('JWT_AUDIENCE', 'chega.ai:gateway'),
+    expiration: env.get('JWT_EXPIRATION', '1d'),
+    issuer: env.get('JWT_ISSUER', 'chega.ai:ms-users')
   },
   auth: {
     salt: env.get('AUTH_SALT', ''),
