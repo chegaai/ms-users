@@ -12,6 +12,7 @@ export interface IJWTInitializationParams {
   secret: string
   audience: string
   expiration: string
+  issuer: string
 }
 
 /**
@@ -22,15 +23,16 @@ export class JWT {
   private readonly secret: string
   private readonly audience: string
   private readonly expiration: string
-  private readonly issuer: string = 'urn:chega.ai:issuer'
+  private readonly issuer: string
 
   /**
    * @param config Crypto configuration
    */
-  constructor (@inject('JWTConfig') { secret, audience, expiration = '1d' }: IJWTInitializationParams) {
+  constructor (@inject('JWTConfig') { secret, audience, expiration = '1d', issuer }: IJWTInitializationParams) {
     this.secret = secret
     this.audience = audience
     this.expiration = expiration
+    this.issuer = issuer
   }
 
   signPayload (payload: any, subject: string, ttl: string) {
