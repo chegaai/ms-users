@@ -41,6 +41,8 @@ spec:
               value: {{ default (tpl "http://zaqar.{{.Release.Namespace}}.svc.cluster.local" .) .Values.environment.CLIENTS_MAIL_URL | quote }}
             - name: CLIENTS_PROFILES_URL
               value: {{ default (tpl "http://ms-profiles.{{.Release.Namespace}}.svc.cluster.local" .) .Values.environment.CLIENTS_PROFILES_URL | quote }}
+            - name: NODE_ENV
+              value: {{.Release.Namespace}}
           ports:
             - name: http
               containerPort: 3000
