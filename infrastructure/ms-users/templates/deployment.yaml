@@ -35,6 +35,12 @@ spec:
               value: {{ required "JWT Audience is required" .Values.environment.JWT_AUDIENCE | quote }}
             - name: JWT_ISSUER
               value: {{ required "JWT Issuer is required" .Values.environment.JWT_ISSUER | quote }}
+            - name: MICROSERVICES_GROUP_URL
+              value: {{ default (tpl "http://ms-groups.{{.Release.Namespace}}.svc.cluster.local" .) .Values.environment.MICROSERVICES_GROUP_URL | quote }}
+            - name: CLIENTS_MAIL_URL
+              value: {{ default (tpl "http://zaqar.{{.Release.Namespace}}.svc.cluster.local" .) .Values.environment.CLIENTS_MAIL_URL | quote }}
+            - name: CLIENTS_PROFILES_URL
+              value: {{ default (tpl "http://ms-profiles.{{.Release.Namespace}}.svc.cluster.local" .) .Values.environment.CLIENTS_PROFILES_URL | quote }}
           ports:
             - name: http
               containerPort: 3000
