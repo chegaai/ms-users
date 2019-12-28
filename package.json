@@ -28,7 +28,7 @@
     "@nindoo/mongodb-data-layer": "^2.1.0",
     "@types/jsonwebtoken": "^8.3.4",
     "axios": "^0.19.0",
-    "express-rescue": "^1.1.23",
+    "express-rescue": "1.1.20",
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "sugar-env": "^1.5.9",
