@@ -13,7 +13,7 @@ export function factory (service: UserService) {
           format: 'email'
         }
       },
-      required: ['userId'],
+      required: ['email'],
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {
