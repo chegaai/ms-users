@@ -17,7 +17,7 @@ export function factory (service: UserService) {
       additionalProperties: false
     }),
     rescue(async (req: Request, res: Response) => {
-      const email = req.params.email
+      const email = req.body.email
 
       await service.requestPasswordRecovery(email)
 
