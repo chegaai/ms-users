@@ -22,10 +22,11 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   app.put('/me', routes.update.factory(services.user))
 
   app.get('/me', routes.getMe.factory(services.user))
+  app.delete('/me', routes.removeMe.factory(services.user))
   app.get('/', routes.listAll.factory(services.user))
   app.post('/', routes.create.factory(services.user))
   app.get('/:userId', routes.find.factory(services.user))
-  app.delete('/:userId', routes.remove.factory(services.user))
+  app.delete('/:userId', routes.removeOne.factory(services.user))
 
   // Change password
   app.put('/me/password', routes.setPassword.factory(services.user))
