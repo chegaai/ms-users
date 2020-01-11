@@ -49,8 +49,6 @@ export class UserService {
   async create (creationData: CreateUserData, profileData: Omit<ProfileCreationParams, 'id'>) {
     await this.ensureUserDoesNotExist(creationData)
 
-    // TODO: send the image to cloud
-
     creationData.password = await this.crypto.encrypt(creationData.password)
     const user: User = User.create(new ObjectId(), creationData)
 
