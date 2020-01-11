@@ -36,13 +36,9 @@ export class UserService {
     @inject('ProfileClient') private readonly profileClient: ProfileClient
   ) { }
 
-  async ensureUserDoesNotExist ({ document, email, username }: CreateUserData) {
+  async ensureUserDoesNotExist ({ document, username }: CreateUserData) {
     if (await this.repository.existsByDocument(document)) {
       throw new UserAlreadyExistsError('document', document)
-    }
-
-    if (await this.repository.existsByEmail(email) || await this.profileClient.exists(email)) {
-      throw new UserAlreadyExistsError('email', email)
     }
 
     if (await this.repository.existsByUsername(username)) {
@@ -50,7 +46,7 @@ export class UserService {
     }
   }
 
-  async create (creationData: CreateUserData, profileData: Omit<ProfileCreationParams, 'id' | 'email'>) {
+  async create (creationData: CreateUserData, profileData: Omit<ProfileCreationParams, 'id'>) {
     await this.ensureUserDoesNotExist(creationData)
 
     // TODO: send the image to cloud
@@ -59,7 +55,7 @@ export class UserService {
     const user: User = User.create(new ObjectId(), creationData)
 
     await this.repository.save(user)
-    const profile = await this.profileClient.createProfile({ id: user.id.toHexString(), email: user.email, ...profileData })
+    const profile = await this.profileClient.createProfile({ id: user.id.toHexString(), ...profileData })
 
     return { user, profile }
   }
