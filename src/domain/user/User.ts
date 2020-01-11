@@ -58,7 +58,7 @@ export class User extends BaseEntity {
 
   toObject () {
     return {
-      _id: this.id,
+      id: this.id,
       username: this.username,
       email: this.email,
       document: this.document,
