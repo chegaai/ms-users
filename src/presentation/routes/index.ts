@@ -8,6 +8,7 @@ import removeMe from './user/removeMe'
 import listAll from './user/listAll'
 import setPassword from './user/setPassword'
 import recoverPassword from './user/recoverPassword'
+import usernameAvailability from './user/username-availability'
 import requestPasswordRecovery from './user/requestPasswordRecovery'
 
 
@@ -22,5 +23,6 @@ export const routes = {
   listAll,
   setPassword,
   recoverPassword,
+  usernameAvailability,
   requestPasswordRecovery
 }

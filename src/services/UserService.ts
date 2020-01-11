@@ -142,4 +142,8 @@ export class UserService {
 
     return user
   }
+
+  async existsByUsername (username: string) {
+    return this.repository.existsByUsername(username)
+  }
 }

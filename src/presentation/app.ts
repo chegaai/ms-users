@@ -27,6 +27,7 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   app.post('/', routes.create.factory(services.user))
   app.get('/:userId', routes.find.factory(services.user))
   app.delete('/:userId', routes.removeOne.factory(services.user))
+  app.get('/:username/availability', routes.usernameAvailability.factory(services.user))
 
   // Change password
   app.put('/me/password', routes.setPassword.factory(services.user))
