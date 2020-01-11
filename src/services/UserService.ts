@@ -1,21 +1,21 @@
+import { PaginatedQueryResult } from '@nindoo/mongodb-data-layer'
 import { ObjectId } from 'bson'
-import { JWT } from '../utils/JWT'
-import { Crypto } from '../utils/Crypto'
-import { User } from '../domain/user/User'
-import { injectable, inject } from 'tsyringe'
+import { inject, injectable } from 'tsyringe'
+import { PasswordResetTemplate } from '../data/clients/mail-templates/PasswordResetTemplate'
 import { MailClient } from '../data/clients/MailClient'
 import { ProfileClient } from '../data/clients/ProfileClient'
-import { InvalidTokenError } from './errors/InvalidTokenError'
-import { PaginatedQueryResult } from '@nindoo/mongodb-data-layer'
-import { UserUpdateData } from './structures/types/UserUpdateData'
+import { ProfileCreationParams } from '../data/clients/structures/ProfileCreationParams'
 import { UserRepository } from '../data/repositories/UserRepository'
-import { InvalidPasswordError } from './errors/InvalidPasswordError'
-import { CreateUserData } from '../domain/user/structures/CreateUserData'
-import { UserNotFoundError } from '../domain/user/errors/UserNotFoundError'
 import { InvalidLoginError } from '../domain/user/errors/InvalidLoginError'
 import { UserAlreadyExistsError } from '../domain/user/errors/UserAlreadyExistsError'
-import { ProfileCreationParams } from '../data/clients/structures/ProfileCreationParams'
-import { PasswordResetTemplate } from '../data/clients/mail-templates/PasswordResetTemplate'
+import { UserNotFoundError } from '../domain/user/errors/UserNotFoundError'
+import { CreateUserData } from '../domain/user/structures/CreateUserData'
+import { User } from '../domain/user/User'
+import { Crypto } from '../utils/Crypto'
+import { JWT } from '../utils/JWT'
+import { InvalidPasswordError } from './errors/InvalidPasswordError'
+import { InvalidTokenError } from './errors/InvalidTokenError'
+import { UserUpdateData } from './structures/types/UserUpdateData'
 
 function validateTokenPayload (payload: { sub?: string, action?: string } | string, expectedAction: string) {
   if (typeof payload === 'string') throw new InvalidTokenError(payload)
@@ -134,9 +134,9 @@ export class UserService {
   async update (id: string, data: UserUpdateData): Promise<User> {
     const user = await this.find(id)
 
-    if (user.username === data.username) return user
-
-    user.username = data.username
+    if (data.username) user.username = data.username
+    if (data.email) user.email = data.email
+    if (data.document) user.document = data.document
 
     await this.repository.save(user)
 
