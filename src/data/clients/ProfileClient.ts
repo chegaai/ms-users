@@ -5,10 +5,12 @@ import { UnresponsiveServiceError } from './errors/UnresponsiveServiceError'
 
 type CreateFn = (data: ProfileCreationParams) => Promise<void>
 type ExistsFn = (email: string) => Promise<boolean>
+type DeleteFn = (id: string) => Promise<void>
 
 export type ProfileClient = {
-  createProfile: CreateFn,
+  createProfile: CreateFn
   exists: ExistsFn
+  delete: DeleteFn
 }
 
 export function exists (http: AxiosInstance): ExistsFn {
@@ -35,6 +37,18 @@ export function createProfile (http: AxiosInstance): CreateFn {
   }
 }
 
+export function deleteProfile (http: AxiosInstance): DeleteFn {
+  return async (id: string) => {
+    return http.delete(`/${id}`)
+      .then(({ data }) => data)
+      .catch(err => {
+        if (!err.response) throw new UnresponsiveServiceError(`Unresponsive service: "DELETE /${id}" at ms-profiles`)
+
+        throw new Error(err.response.data.error.message)
+      })
+  }
+}
+
 export function getProfileClient (config: IClientConfig): ProfileClient {
   const http = axios.create({
     baseURL: config.url,
@@ -43,6 +57,7 @@ export function getProfileClient (config: IClientConfig): ProfileClient {
 
   return {
     createProfile: createProfile(http),
-    exists: exists(http)
+    exists: exists(http),
+    delete: deleteProfile(http)
   }
 }

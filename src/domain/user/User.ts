@@ -47,6 +47,15 @@ export class User extends BaseEntity {
     return this
   }
 
+  delete () {
+    super.delete()
+    this.email = ''
+    this.password = ''
+    this.document = ''
+    this.username = ''
+    return this
+  }
+
   toObject () {
     return {
       _id: this.id,

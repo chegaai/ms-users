@@ -69,8 +69,9 @@ export class UserService {
     if (!user) return
 
     user.delete()
-
     await this.repository.save(user)
+
+    await this.profileClient.delete(id)
   }
 
   async find (id: string): Promise<User> {
