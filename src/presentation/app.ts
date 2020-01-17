@@ -3,6 +3,7 @@ import { container } from 'tsyringe'
 import expresso from '@expresso/app'
 import errors from '@expresso/errors'
 import { Services } from '../services'
+import tracing from '@expresso/tracing'
 import { IAppConfig } from '../app.config'
 import { createConnection } from '@nindoo/mongodb-data-layer'
 import { getProfileClient } from '../data/clients/ProfileClient'
@@ -17,6 +18,8 @@ export const app = expresso(async (app, config: IAppConfig, environment: string)
   container.register('ProfileClient', { useValue: getProfileClient(config.clients.profiles) })
 
   const services = container.resolve(Services)
+
+  app.use(tracing.factory())
 
   // Change username
   app.put('/me', routes.update.factory(services.user))
