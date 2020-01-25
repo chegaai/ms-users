@@ -89,7 +89,6 @@ export class UserService {
 
   async requestPasswordRecovery (email: string) {
     const user = await this.repository.findByEmail(email)
-
     if (!user) return
 
     const payload = { action: 'recover-password' }
