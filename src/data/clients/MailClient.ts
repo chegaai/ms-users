@@ -1,20 +1,22 @@
 import axios, { AxiosInstance } from 'axios'
 import { injectable, inject } from 'tsyringe'
 import { Template } from './mail-templates/Template'
-import { IClientConfig } from './structures/interfaces/IClientConfig'
 import { UnresponsiveServiceError } from './errors/UnresponsiveServiceError'
+import { IMailClientConfig } from './structures/interfaces/IMailClientConfig'
 
 @injectable()
 export class MailClient {
   baseUrl: string
   http: AxiosInstance
+  private lang: string
 
-  constructor (@inject('MailClientConfig') { url, timeout }: IClientConfig) {
+  constructor (@inject('MailClientConfig') { url, timeout, lang }: IMailClientConfig) {
     this.baseUrl = url
     this.http = axios.create({
       baseURL: url,
       timeout
     })
+    this.lang = lang
   }
 
   /**
@@ -27,7 +29,10 @@ export class MailClient {
     const payload = {
       subject,
       to: [to],
-      template: await template.getContent(),
+      template: { 
+        text: await template.getContent(),
+        lang: this.lang
+      },
       data: template.getData()
     }
 

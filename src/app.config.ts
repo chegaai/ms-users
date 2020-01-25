@@ -53,8 +53,9 @@ export const config = {
   },
   clients: {
     mail: {
-      url: env.get('CLIENTS_MAIL_URL', 'http://ms-clients:3000'),
-      timeout: env.get.int('CLIENTS_MAIL_TIMEOUT', 3000)
+      url: env.get('CLIENTS_MAIL_URL', 'http://zaqar:3000'),
+      timeout: env.get.int('CLIENTS_MAIL_TIMEOUT', 3000),
+      lang: env.get('ZAQAR_LANG', 'pug'),
     },
     profiles: {
       url: env.get('CLIENTS_PROFILES_URL', 'http://ms-profiles:3000'),
