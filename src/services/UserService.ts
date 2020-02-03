@@ -127,9 +127,26 @@ export class UserService {
   async update (id: string, data: UserUpdateData): Promise<User> {
     const user = await this.find(id)
 
-    if (data.username) user.username = data.username
-    if (data.email) user.email = data.email
-    if (data.document) user.document = data.document
+    if (data.username){
+      if (await this.repository.existsByUsername(data.username)) {
+        throw new UserAlreadyExistsError('username', data.username)
+      }
+      user.username = data.username
+    } 
+
+    if (data.email){
+      if (await this.repository.existsByEmail(data.email)) {
+        throw new UserAlreadyExistsError('email', data.email)
+      }
+      user.email = data.email
+    } 
+    
+    if (data.document){
+      if (await this.repository.existsByEmail(data.document)) {
+        throw new UserAlreadyExistsError('document', data.document)
+      }
+      user.document = data.document
+    } 
 
     await this.repository.save(user)
 
