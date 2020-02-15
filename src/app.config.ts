@@ -51,7 +51,7 @@ export const config = {
   clients: {
     mail: {
       url: env.get('CLIENTS_MAIL_URL', 'http://zaqar:3000'),
-      timeout: env.get.int('CLIENTS_MAIL_TIMEOUT', 3000),
+      timeout: env.get.int('CLIENTS_MAIL_TIMEOUT', 9000),
       lang: env.get('ZAQAR_LANG', 'pug'),
     },
     profiles: {
