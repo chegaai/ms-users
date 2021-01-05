@@ -28,7 +28,7 @@
     "@expresso/validator": "^1.1.1",
     "@nindoo/mongodb-data-layer": "^2.1.0",
     "@types/jsonwebtoken": "^8.3.4",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "express-rescue": "1.1.20",
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
